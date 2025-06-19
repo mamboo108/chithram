@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Reviews – Chithram</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1><a href="index.html" class="logo">ചിത്രം</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="user-review.html">User Reviews</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="reviews">
+      <h2>Click a Movie to Add Your Review</h2>
+      <div class="card-container" id="movieCards">
+
+        <!-- Annayum Rasoolum -->
+        <div class="card" data-movie="Annayum Rasoolum">
+          <img src="images/anna.jpg" alt="Annayum Rasoolum" />
+          <h3>Annayum Rasoolum</h3>
+          <p>2013 · Romance/Drama · 2h 47m</p>
+          <div class="user-reviews" id="reviews-Annayum Rasoolum"></div>
+        </div>
+
+        <!-- Locke -->
+        <div class="card" data-movie="Locke">
+          <img src="images/locke1.jpg" alt="Locke" />
+          <h3>Locke</h3>
+          <p>2013 · Thriller/Drama · 1h 25m</p>
+          <div class="user-reviews" id="reviews-Locke"></div>
+        </div>
+
+        <!-- The Lunchbox -->
+        <div class="card" data-movie="The Lunchbox">
+          <img src="images/lunch.jpg" alt="The Lunchbox" />
+          <h3>The Lunchbox</h3>
+          <p>2013 · Romance/Comedy · 1h 44m</p>
+          <div class="user-reviews" id="reviews-The Lunchbox"></div>
+        </div>
+
+        <!-- Top Gun: Maverick -->
+        <div class="card" data-movie="Top Gun: Maverick">
+          <img src="images/top.jpg" alt="Top Gun: Maverick" />
+          <h3>Top Gun: Maverick</h3>
+          <p>2022 · Action/Drama · 2h 10m</p>
+          <div class="user-reviews" id="reviews-Top Gun: Maverick"></div>
+        </div>
+
+        <!-- Joseph -->
+        <div class="card" data-movie="Joseph">
+          <img src="images/joseph.jpg" alt="Joseph" />
+          <h3>Joseph</h3>
+          <p>2018 · Thriller/Drama · 2h 18m</p>
+          <div class="user-reviews" id="reviews-Joseph"></div>
+        </div>
+
+        <!-- 12th Fail -->
+        <div class="card" data-movie="12th Fail">
+          <img src="images/12th.jpg" alt="12th Fail" />
+          <h3>12th Fail</h3>
+          <p>2023 · Biographical/Drama · 2h 26m</p>
+          <div class="user-reviews" id="reviews-12th Fail"></div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Popup Form -->
+  <div id="popupForm" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeBtn">&times;</span>
+      <h2 id="formTitle">Review Movie</h2>
+      <form id="reviewForm">
+        <input type="hidden" id="selectedMovie" />
+        <label for="rating">Rating:</label>
+        <select id="rating" required>
+          <option value="">Choose...</option>
+          <option value="5">⭐⭐⭐⭐⭐</option>
+          <option value="4">⭐⭐⭐⭐</option>
+          <option value="3">⭐⭐⭐</option>
+          <option value="2">⭐⭐</option>
+          <option value="1">⭐</option>
+        </select>
+        <label for="review">Your Review:</label>
+        <textarea id="review" required></textarea>
+        <button type="submit">Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <p>Built by - Antony</p>
+  </footer>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKFmWWylz6acagPZr8DVo5OehnqTp7awE",
+      authDomain: "chithram-reviews.firebaseapp.com",
+      databaseURL: "https://chithram-reviews-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "chithram-reviews",
+      storageBucket: "chithram-reviews.appspot.com",
+      messagingSenderId: "25152866212",
+      appId: "1:25152866212:web:f6409c301538dcb274e331",
+      measurementId: "G-VFBXHP6VVT"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    const cards = document.querySelectorAll(".card");
+    const popup = document.getElementById("popupForm");
+    const form = document.getElementById("reviewForm");
+    const ratingInput = document.getElementById("rating");
+    const reviewInput = document.getElementById("review");
+    const selectedMovieInput = document.getElementById("selectedMovie");
+    const formTitle = document.getElementById("formTitle");
+    const closeBtn = document.getElementById("closeBtn");
+
+    // Show popup
+    cards.forEach(card => {
+      card.addEventListener("click", () => {
+        const movieName = card.getAttribute("data-movie");
+        selectedMovieInput.value = movieName;
+        formTitle.textContent = `Review: ${movieName}`;
+        popup.classList.remove("hidden");
+      });
+
+      // Load existing reviews
+      const movieName = card.getAttribute("data-movie");
+      const reviewContainer = document.getElementById(`reviews-${movieName}`);
+      db.ref("reviews/" + movieName).once("value", (snapshot) => {
+        snapshot.forEach(child => {
+          const data = child.val();
+          const div = document.createElement("div");
+          div.classList.add("user-review");
+          div.innerHTML = `<strong>${"\u2b50".repeat(data.rating)}</strong><br>${data.text}`;
+          reviewContainer.appendChild(div);
+        });
+      });
+    });
+
+    // Close popup
+    closeBtn.onclick = () => popup.classList.add("hidden");
+
+    // Submit review
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const movie = selectedMovieInput.value;
+      const rating = ratingInput.value;
+      const reviewText = reviewInput.value;
+
+      const reviewData = {
+        rating: rating,
+        text: reviewText,
+        timestamp: Date.now()
+      };
+
+      db.ref("reviews/" + movie).push(reviewData);
+
+      const reviewContainer = document.getElementById(`reviews-${movie}`);
+      const newReview = document.createElement("div");
+      newReview.classList.add("user-review");
+      newReview.innerHTML = `<strong>${"\u2b50".repeat(rating)}</strong><br>${reviewText}`;
+      reviewContainer.appendChild(newReview);
+
+      form.reset();
+      popup.classList.add("hidden");
+    });
+  </script>
+</body>
+</html>

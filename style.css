@@ -189,3 +189,84 @@ img {
   height: 100%;
   border-radius: 10px;
 }
+/* Popup review modal */
+.modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background-color: #222;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  color: white;
+  box-shadow: 0 8px 30px rgba(255, 0, 0, 0.2);
+  text-align: left;
+}
+#closeBtn {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+  color: red;
+  margin-bottom: 10px;
+}
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: white;
+}
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #333;
+  color: white;
+  font-size: 14px;
+}
+.modal-content textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.modal-content button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.modal-content button:hover {
+  background-color: white;
+  color: black;
+}
+.user-review {
+  background-color: #1a1a1a;
+  color: #ddd;
+  padding: 10px;
+  margin-top: 10px;
+  border-left: 4px solid red;
+  border-radius: 5px;
+}
+.user-review {
+  background-color: #1a1a1a;
+  color: #ddd;
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 4px solid red;
+  border-radius: 5px;
+}
