@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MovieHub – Chithram</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1><a href="index.html" class="logo">ചിത്രം</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="user-review.html">User Reviews</a>
+      <a href="moviehub.html">MovieHub</a>
+      <a href="favorites.html">Favorites</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 style="text-align: center; margin-top: 20px;">Search for Movies</h2>
+    <input type="text" id="searchInput" placeholder="Type a movie name..." />
+    <div id="movieResults" class="favorites-container"></div>
+  </main>
+
+  <footer>
+    <p>Built by - Antony</p>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCKFmWWylz6acagPZr8DVo5OehnqTp7awE",
+      authDomain: "chithram-reviews.firebaseapp.com",
+      databaseURL: "https://chithram-reviews-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "chithram-reviews",
+      storageBucket: "chithram-reviews.appspot.com",
+      messagingSenderId: "25152866212",
+      appId: "1:25152866212:web:f6409c301538dcb274e331",
+      measurementId: "G-VFBXHP6VVT"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+  </script>
+
+  <!-- MovieHub Script -->
+  <script>
+    const apiKey = '3e49aef119af7ed8f3a0ff4deac69b3b';
+    const searchInput = document.getElementById('searchInput');
+    const movieResults = document.getElementById('movieResults');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.trim();
+      if (query.length < 3) return;
+
+      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`)
+        .then(res => res.json())
+        .then(data => {
+          movieResults.innerHTML = "";
+          data.results.forEach(movie => {
+            const div = document.createElement('div');
+            div.classList.add('movie-card');
+            div.innerHTML = `
+              <img src="https://image.tmdb.org/t/p/w200${movie.poster_path}" alt="${movie.title}">
+              <h3>${movie.title}</h3>
+              <p>${movie.release_date || "N/A"}</p>
+              <select onchange="saveRating('${movie.id}', this.value)">
+                <option value="">Rate</option>
+                <option value="1">⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+              </select>
+              <br>
+              <button onclick="addToFavorites('${movie.title}', '${movie.id}', 'https://image.tmdb.org/t/p/w200${movie.poster_path}', '${movie.release_date || "N/A"}')">❤️ Add to Favorites</button>
+            `;
+            movieResults.appendChild(div);
+          });
+        });
+    });
+
+    function saveRating(movieId, rating) {
+      db.ref("movieRatings/" + movieId).push({ rating: parseInt(rating) });
+      alert("Thanks for your rating!");
+    }
+
+    function addToFavorites(title, id, poster, date) {
+  let favs = JSON.parse(localStorage.getItem("favorites")) || [];
+  const exists = favs.find(f => f.id === id);
+  if (!exists) {
+    favs.push({ title, id, poster, date });
+    localStorage.setItem("favorites", JSON.stringify(favs));
+    alert(`Added "${title}" to favorites!`);
+  } else {
+    alert(`"${title}" is already in favorites.`);
+  }
+}
+
+  </script>
+</body>
+</html>

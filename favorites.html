@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Favorites – Chithram MovieHub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1><a href="index.html" class="logo">ചിത്രം</a></h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="moviehub.html">MovieHub</a>
+      <a href="favorites.html">Favorites</a>
+      <a href="user-review.html">User Reviews</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 style="text-align: center; margin-top: 20px;">🎬 Your Favorite Movies</h2>
+    <div class="favorites-container" id="favoritesContainer"></div>
+  </main>
+
+  <footer>
+    <p>Built by Antony</p>
+  </footer>
+
+  <script>
+    const favs = JSON.parse(localStorage.getItem("favorites")) || [];
+    const container = document.getElementById("favoritesContainer");
+
+    if (favs.length === 0) {
+      container.innerHTML = "<p style='text-align:center; color: gray;'>No favorite movies yet.</p>";
+    } else {
+      favs.forEach(movie => {
+        const card = document.createElement("div");
+        card.classList.add("movie-card");
+        card.innerHTML = `
+          <img src="${movie.poster}" alt="${movie.title}" />
+          <h3>${movie.title}</h3>
+          <p>${movie.date}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
