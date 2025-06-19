@@ -16,7 +16,7 @@
       <a href="contact.html">Contact</a>
       <a href="user-review.html">User Reviews</a>
       <a href="moviehub.html">MovieHub</a>
-      <a href="favorites.html">Favorites</a>
+      <a href="favorites.html">My WatchList</a>
     </nav>
   </header>
 
@@ -78,7 +78,7 @@
                 <option value="5">⭐⭐⭐⭐⭐</option>
               </select>
               <br>
-              <button onclick="addToFavorites('${movie.title}', '${movie.id}', 'https://image.tmdb.org/t/p/w200${movie.poster_path}', '${movie.release_date || "N/A"}')">❤️ Add to Favorites</button>
+              <button onclick="addToFavorites('${movie.title}', '${movie.id}', 'https://image.tmdb.org/t/p/w200${movie.poster_path}', '${movie.release_date || "N/A"}')">Add to your Watchlist</button>
             `;
             movieResults.appendChild(div);
           });
