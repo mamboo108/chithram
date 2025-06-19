@@ -88,6 +88,39 @@
 <footer>
   <p>Built by - Antony</p>
 </footer>
+<div class="user-reviews" id="user-reviews-container">
+  <h3>User Reviews</h3>
+</div>
+</div>
+  <!-- Firebase SDK Scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCKFmWWylz6acagPZr8DVo5OehnqTp7awE",
+    authDomain: "chithram-reviews.firebaseapp.com",
+    databaseURL: "https://chithram-reviews-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "chithram-reviews",
+    storageBucket: "chithram-reviews.appspot.com",
+    messagingSenderId: "25152866212",
+    appId: "1:25152866212:web:f6409c301538dcb274e331",
+    measurementId: "G-VFBXHP6VVT"
+  };
 
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // Change this movie name based on the current page
+  const container = document.getElementById("user-reviews-container");
+  db.ref("reviews/Joseph").once("value", (snapshot) => {
+    snapshot.forEach(child => {
+      const data = child.val();
+      const reviewDiv = document.createElement("div");
+      reviewDiv.classList.add("user-review");
+      reviewDiv.innerHTML = `<strong>${"⭐".repeat(data.rating)}</strong><br>${data.text}`;
+      container.appendChild(reviewDiv);
+    });
+  });
+  </script>
 </body>
 </html>

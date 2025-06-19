@@ -262,11 +262,21 @@ img {
   border-left: 4px solid red;
   border-radius: 5px;
 }
-.user-review {
+.user-review-container {
   background-color: #1a1a1a;
   color: #ddd;
   padding: 10px;
   margin: 10px 0;
   border-left: 4px solid red;
   border-radius: 5px;
+}
+.user-review-container {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 8px 0;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+.user-reviews h3 {
+  text-align: center;
 }
