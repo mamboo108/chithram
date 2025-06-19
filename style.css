@@ -6,26 +6,27 @@ body {
   }
   
   header {
-    background-color: black;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  header h1 {
-    color: red;
-    font-size: 36px;
-  }
-  
-  nav {
-    margin-top: 10px;
-  }
-  
-  nav a {
-    margin: 0 20px;
-    text-decoration: none;
-    color: red;
-    font-weight: bold;
-  }
+  background-color: black;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  color: red;
+  font-size: 36px;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin: 0 20px;
+  text-decoration: none;
+  color: red;
+  font-weight: bold;
+}
+
   
   .reviews {
     padding: 20px;
@@ -226,8 +227,10 @@ img {
   color: white;
 }
 .modal-content select,
-.modal-content textarea {
+.modal-content textarea,
+.modal-content input[type="text"] {
   width: 100%;
+  box-sizing: border-box;
   padding: 10px;
   margin-top: 5px;
   border: none;
@@ -236,6 +239,8 @@ img {
   color: white;
   font-size: 14px;
 }
+
+
 .modal-content textarea {
   resize: vertical;
   min-height: 80px;
