@@ -1,50 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <title>12th Fail – Review | Chithram</title>
   <meta name="description" content="Review of 12th Fail (2023), an inspiring story of determination and resilience based on true events. A Vikrant Massey starrer.">
   <meta name="keywords" content="12th Fail review, Vikrant Massey, Hindi movie, true story, UPSC, Chithram">
   <link rel="icon" href="images/favicon.ico" type="image/x-icon" />
-  <meta charset="UTF-8" />
-  <title>12th Fail – Review | Chithram</title>
   <link rel="stylesheet" href="style.css" />
+  <script type="application/ld+json" id="review-schema"></script>
+
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-H39SMQN0GY');
-</script>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org/",
-  "@type": "Review",
-  "itemReviewed": {
-    "@type": "Movie",
-    "name": "12th Fail",
-    "datePublished": "2023-10-27",
-    "director": {
-      "@type": "Person",
-      "name": "Vidhu Vinod Chopra"
-    }
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Antony George Mampilly"
-  },
-  "reviewRating": {
-    "@type": "Rating",
-    "ratingValue": "9",
-    "bestRating": "10"
-  },
-  "reviewBody": "An inspiring true story that captures grit, hope, and the power of second chances, executed with sincerity and emotion."
-}
-</script>
-
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H39SMQN0GY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-H39SMQN0GY');
+  </script>
 </head>
-<body>
 
+<body>
 <header>
   <h1><a href="index.html" class="logo">ചിത്രം</a></h1>
   <nav>
@@ -84,13 +59,13 @@
       Official trailer of <em>12th Fail (2023)</em>, starring Vikrant Massey.
     </figcaption>
   </figure>
-  
 </main>
+
 <div class="user-reviews" id="user-reviews-container">
   <h3>User Reviews</h3>
 </div>
-</div>
-  <!-- Firebase SDK Scripts -->
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
@@ -109,13 +84,17 @@
   const db = firebase.database();
 
   const container = document.getElementById("user-reviews-container");
+  const schemaScript = document.getElementById("review-schema");
   const movieName = "12th Fail";
 
   db.ref("reviews/" + movieName).once("value", (snapshot) => {
+    const reviews = [];
     snapshot.forEach(child => {
       const data = child.val();
       const date = new Date(data.timestamp).toLocaleDateString("en-IN");
       const name = data.name || "Anonymous";
+
+      // Show user review in HTML
       const reviewDiv = document.createElement("div");
       reviewDiv.classList.add("user-review");
       reviewDiv.innerHTML = `
@@ -124,14 +103,51 @@
         <span style="font-size: 0.9em; color: gray;">~${name} | ${date}</span>
       `;
       container.appendChild(reviewDiv);
+
+      // Add to structured schema
+      reviews.push({
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": name
+        },
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": data.rating,
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "reviewBody": data.text,
+        "datePublished": new Date(data.timestamp).toISOString()
+      });
     });
+
+    if (reviews.length > 0) {
+      const avgRating = (
+        reviews.reduce((sum, r) => sum + parseFloat(r.reviewRating.ratingValue), 0) / reviews.length
+      ).toFixed(1);
+
+      const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Movie",
+        "name": movieName,
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": avgRating,
+          "reviewCount": reviews.length,
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "review": reviews
+      };
+
+      schemaScript.textContent = JSON.stringify(structuredData, null, 2);
+    }
   });
 </script>
 
-  </script>
-  <footer>
+<footer>
   <p>Built by - Antony</p>
 </footer>
-
 </body>
 </html>
