@@ -84,10 +84,6 @@
     </figcaption>
   </figure>
 </main>
-
-<footer>
-  <p>Built by - Antony</p>
-</footer>
 <div class="user-reviews" id="user-reviews-container">
   <h3>User Reviews</h3>
 </div>
@@ -110,18 +106,30 @@
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
 
-  // Change this movie name based on the current page
   const container = document.getElementById("user-reviews-container");
-  db.ref("reviews/Top Gun: Maverick").once("value", (snapshot) => {
+  const movieName = "Top Gun: Maverick";
+
+  db.ref("reviews/" + movieName).once("value", (snapshot) => {
     snapshot.forEach(child => {
       const data = child.val();
+      const date = new Date(data.timestamp).toLocaleDateString("en-IN");
+      const name = data.name || "Anonymous";
       const reviewDiv = document.createElement("div");
       reviewDiv.classList.add("user-review");
-      reviewDiv.innerHTML = `<strong>${"⭐".repeat(data.rating)}</strong><br>${data.text}`;
+      reviewDiv.innerHTML = `
+        <strong>${"⭐".repeat(data.rating)}</strong><br>
+        ${data.text}<br>
+        <span style="font-size: 0.9em; color: gray;">~${name} | ${date}</span>
+      `;
       container.appendChild(reviewDiv);
     });
   });
+</script>
+
   </script>
+  <footer>
+  <p>Built by - Antony</p>
+</footer>
 
 </body>
 </html>

@@ -255,13 +255,16 @@ img {
   color: black;
 }
 .user-review {
-  background-color: #1a1a1a;
-  color: #ddd;
+  text-align: center;
   padding: 10px;
-  margin-top: 10px;
-  border-left: 4px solid red;
-  border-radius: 5px;
+  margin: 10px auto;
+  background-color: #1e1e1e;
+  color: white;
+  border-left: 5px solid red;
+  width: 60%;
+  border-radius: 4px;
 }
+
 .user-review-container {
   background-color: #1a1a1a;
   color: #ddd;
@@ -269,6 +272,7 @@ img {
   margin: 10px 0;
   border-left: 4px solid red;
   border-radius: 5px;
+
 }
 .user-review-container {
   border: 1px solid #ddd;

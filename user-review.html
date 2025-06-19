@@ -12,9 +12,9 @@
     <nav>
       <a href="index.html">Home</a>
       <a href="reviews.html">Reviews</a>
-      <a href="user-review.html">User Reviews</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact Us</a>
+      <a href="user-review.html">User Reviews</a>
     </nav>
   </header>
 
@@ -82,6 +82,8 @@
       <h2 id="formTitle">Review Movie</h2>
       <form id="reviewForm">
         <input type="hidden" id="selectedMovie" />
+        <label for="username">Your Name:</label>
+        <input type="text" id="username" required />
         <label for="rating">Rating:</label>
         <select id="rating" required>
           <option value="">Choose...</option>
@@ -125,11 +127,11 @@
     const form = document.getElementById("reviewForm");
     const ratingInput = document.getElementById("rating");
     const reviewInput = document.getElementById("review");
+    const nameInput = document.getElementById("username");
     const selectedMovieInput = document.getElementById("selectedMovie");
     const formTitle = document.getElementById("formTitle");
     const closeBtn = document.getElementById("closeBtn");
 
-    // Show popup
     cards.forEach(card => {
       card.addEventListener("click", () => {
         const movieName = card.getAttribute("data-movie");
@@ -138,31 +140,33 @@
         popup.classList.remove("hidden");
       });
 
-      // Load existing reviews
       const movieName = card.getAttribute("data-movie");
       const reviewContainer = document.getElementById(`reviews-${movieName}`);
       db.ref("reviews/" + movieName).once("value", (snapshot) => {
         snapshot.forEach(child => {
           const data = child.val();
+          const date = new Date(data.timestamp).toLocaleDateString("en-IN", {
+            year: "numeric", month: "long", day: "numeric"
+          });
           const div = document.createElement("div");
           div.classList.add("user-review");
-          div.innerHTML = `<strong>${"\u2b50".repeat(data.rating)}</strong><br>${data.text}`;
+          div.innerHTML = `<strong>${"\u2b50".repeat(data.rating)}</strong><br>${data.text}<br><em>~${data.name} | ${date}</em>`;
           reviewContainer.appendChild(div);
         });
       });
     });
 
-    // Close popup
     closeBtn.onclick = () => popup.classList.add("hidden");
 
-    // Submit review
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       const movie = selectedMovieInput.value;
       const rating = ratingInput.value;
       const reviewText = reviewInput.value;
+      const userName = nameInput.value;
 
       const reviewData = {
+        name: userName,
         rating: rating,
         text: reviewText,
         timestamp: Date.now()
@@ -171,9 +175,12 @@
       db.ref("reviews/" + movie).push(reviewData);
 
       const reviewContainer = document.getElementById(`reviews-${movie}`);
+      const date = new Date(reviewData.timestamp).toLocaleDateString("en-IN", {
+        year: "numeric", month: "long", day: "numeric"
+      });
       const newReview = document.createElement("div");
       newReview.classList.add("user-review");
-      newReview.innerHTML = `<strong>${"\u2b50".repeat(rating)}</strong><br>${reviewText}`;
+      newReview.innerHTML = `<strong>${"\u2b50".repeat(rating)}</strong><br>${reviewText}<br><em>~${userName} | ${date}</em>`;
       reviewContainer.appendChild(newReview);
 
       form.reset();
