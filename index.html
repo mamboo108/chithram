@@ -48,17 +48,19 @@
 <body>
 
   <header>
-    <h1><a href="index.html" class="logo">ചിത്രം</a></h1>
-    <nav>
-      <a href="reviews.html">Reviews</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact Us</a>
-      <a href="user-review.html">User Reviews</a>
-      <a href="moviehub.html">MovieHub</a>
-      <a href="favorites.html">My WatchList</a>
+  <h1><a href="index.html" class="logo">ചിത്രം</a></h1>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+  <nav id="navMenu">
+    <a href="index.html">Home</a>
+    <a href="reviews.html">Reviews</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="user-review.html">User Reviews</a>
+    <a href="moviehub.html">MovieHub</a>
+    <a href="favorites.html">My WatchList</a>
+  </nav>
+</header>
 
-    </nav>
-  </header>
   
   <section class="reviews">
     <h2>Latest Reviews</h2>
@@ -85,6 +87,12 @@
 
     </div>
   </section>
+  <script>
+  function toggleMenu() {
+    document.getElementById('navMenu').classList.toggle('show');
+  }
+</script>
+
 
   <footer>
     <p>Built by - Antony</p>

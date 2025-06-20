@@ -395,11 +395,81 @@ img {
 .movie-card h3 {
   margin: 10px 0 5px;
   font-size: 18px;
-  color: red;
+  color: rgb(255, 255, 255);
 }
 
 .movie-card p {
   margin: 0;
   font-size: 14px;
   color: #ccc;
+}
+#watchlistContainer .movie-card {
+ background-color: #222;
+  padding: 15px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+#watchlistContainer button {
+  background-color: rgb(237, 19, 19);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#watchlistContainer button:hover {
+  background-color: darkred;
+}
+/* Show hamburger on mobile */
+.hamburger {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+  position: absolute;
+  top: 25px;
+  right: 20px;
+}
+
+/* Mobile nav default hidden */
+#navMenu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  #navMenu {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    padding: 15px;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+  }
+
+  #navMenu a {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid red;
+  }
+
+  #navMenu.show {
+    display: flex;
+  }
 }

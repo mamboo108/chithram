@@ -96,9 +96,9 @@
   if (!exists) {
     favs.push({ title, id, poster, date });
     localStorage.setItem("favorites", JSON.stringify(favs));
-    alert(`Added "${title}" to favorites!`);
+    alert(`Added "${title}" to Watchlist!`);
   } else {
-    alert(`"${title}" is already in favorites.`);
+    alert(`"${title}" is already in Watchlist.`);
   }
 }
 
