@@ -34,10 +34,9 @@ nav a {
   
   .reviews h2 {
     background-color: black;
-    display: inline-block;
+    display:inline-block;
     padding: 10px;
     border-radius: 8px;
-    text-align: center;
   }
   
   .card-container {
@@ -472,4 +471,42 @@ img {
   #navMenu.show {
     display: flex;
   }
+}
+.about-section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+  color: #ddd;
+  font-family: Arial, sans-serif;
+}
+
+.about-section h3 {
+  color: red;
+  font-size: 24px;
+  margin-top: 20px;
+  border-bottom: 2px solid red;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.about-section p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-top: 10px;
+  color: #ccc;
+}
+
+.about-section ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.about-section li {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #ddd;
 }
